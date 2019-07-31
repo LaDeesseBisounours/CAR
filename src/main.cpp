@@ -26,7 +26,9 @@ int main(){
     // Capture frame-by-frame
     cap >> frame;
     Mat hsvFrame;
-    Mat RedMask1, YellowMask1, RedMask2, YellowMask2;
+    Mat RedMask1, YellowMask1, RedMask2;
+    Mat res(frame.size(), frame.type());
+    res.setTo(0);
 
   
     // If the frame is empty, break immediately
@@ -37,11 +39,11 @@ int main(){
  
     inRange(hsvFrame, Scalar(0, 140, 70), Scalar(10, 255, 255), RedMask1);
     inRange(hsvFrame, Scalar(175, 140, 70), Scalar(180, 255, 255), RedMask2);
-    inRange(hsvFrame, Scalar(25, 140, 180), Scalar(40, 255, 255), YellowMask1);
+    inRange(hsvFrame, Scalar(25, 140, 70), Scalar(45, 255, 255), YellowMask1);
     // Display the resulting frame
-    RedMask1 = RedMask1 + RedMask2;
-    RedMask1.setTo(Scalar(30,140,0, 100), YellowMask1);
-    imshow( "Frame", RedMask1);
+    res.setTo(Scalar(0, 0, 255), RedMask1 + RedMask2);
+    res.setTo(Scalar(150,250,0), YellowMask1);
+    imshow( "Frame", res);
  
     // Press  ESC on keyboard to exit
     char c=(char)waitKey(25);
